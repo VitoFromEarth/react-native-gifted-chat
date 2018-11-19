@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, ViewPropTypes } from 'react-native';
 import Color from './Color';
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Send({ text, containerStyle, onSend, children, textStyle, label, alwaysShowSend }) {
   if (alwaysShowSend || text.trim().length > 0) {
@@ -18,7 +19,17 @@ export default function Send({ text, containerStyle, onSend, children, textStyle
         }}
         accessibilityTraits="button"
       >
-        <View>{children || <Text style={[styles.text, textStyle]}>{label}</Text>}</View>
+        <View
+          style={{
+            flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginRight: 10,
+          }}
+        >{children ||
+          <MaterialIcons
+            name="send"
+            size={24}
+            color="#2AACFC"
+          />
+        }</View>
       </TouchableOpacity>
     );
   }
@@ -28,7 +39,9 @@ export default function Send({ text, containerStyle, onSend, children, textStyle
 const styles = StyleSheet.create({
   container: {
     height: 44,
-    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   text: {
     color: Color.defaultBlue,

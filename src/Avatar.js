@@ -7,7 +7,10 @@ import { isSameUser, isSameDay } from './utils';
 const styles = {
   left: StyleSheet.create({
     container: {
-      marginRight: 8,
+      // marginRight: 8,
+      paddingTop: 5,
+      paddingBottom: 5,
+      paddingLeft: 5,
     },
     onTop: {
       alignSelf: 'flex-start',
@@ -21,7 +24,10 @@ const styles = {
   }),
   right: StyleSheet.create({
     container: {
-      marginLeft: 8,
+      // marginRight: 8,
+      paddingTop: 5,
+      paddingBottom: 5,
+      paddingLeft: 5,
     },
     onTop: {
       alignSelf: 'flex-start',
@@ -69,7 +75,7 @@ export default class Avatar extends React.PureComponent {
       isSameDay(this.props.currentMessage, messageToCompare)
     ) {
       return (
-        <View style={[styles[this.props.position].container, this.props.containerStyle[this.props.position]]}>
+        <View style={[styles[this.props.position].container, this.props.containerStyle[this.props.position], {marginTop: 10}]}>
           <GiftedAvatar
             avatarStyle={StyleSheet.flatten([
               styles[this.props.position].image,
@@ -97,7 +103,7 @@ export default class Avatar extends React.PureComponent {
 
 Avatar.defaultProps = {
   renderAvatarOnTop: false,
-  showAvatarForEveryMessage: false,
+  showAvatarForEveryMessage: true,
   position: 'left',
   currentMessage: {
     user: null,

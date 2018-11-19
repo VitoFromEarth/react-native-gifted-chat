@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, View, Keyboard, ViewPropTypes } from 'react-native';
+import { StyleSheet, View, Keyboard, ViewPropTypes, KeyboardAvoidingView, Platform } from 'react-native';
 
 import Composer from './Composer';
 import Send from './Send';
@@ -81,17 +81,65 @@ export default class InputToolbar extends React.Component {
     return null;
   }
 
-  render() {
+  renderIosToolbar = () => {
+    return (
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        keyboardVerticalOffset={80}
+        behavior="padding"
+      >
+        <View style={[styles.container, this.props.containerStyle, { position: this.state.position }]}>
+          <View style={[styles.primary, this.props.primaryStyle, { alignItems: 'center', justifyContent: 'space-between' }]}>
+            {this.renderActions()}
+            {this.renderComposer()}
+            {this.renderSend()}
+          </View>
+          {/* {this.renderAccessory()} */}
+        </View>
+      </KeyboardAvoidingView>
+    )
+  }
+
+  renderAndroidToolbar = () => {
     return (
       <View style={[styles.container, this.props.containerStyle, { position: this.state.position }]}>
-        <View style={[styles.primary, this.props.primaryStyle]}>
+        <View style={[styles.primary, this.props.primaryStyle, { alignItems: 'center', justifyContent: 'space-between' }]}>
           {this.renderActions()}
           {this.renderComposer()}
           {this.renderSend()}
         </View>
-        {this.renderAccessory()}
+        {/* {this.renderAccessory()} */}
       </View>
-    );
+    )
+  }
+
+  checkPlatform = () => {
+    if(Platform.OS === 'android') {
+      return this.renderAndroidToolbar()
+    }
+    return this.renderIosToolbar()
+  }
+
+  render() {
+    return this.checkPlatform()
+    // return (
+    //   (
+    //     <KeyboardAvoidingView
+    //       style={{flex: 1}}
+    //       keyboardVerticalOffset={80}
+    //       behavior="padding"
+    //     >
+    //       <View style={[styles.container, this.props.containerStyle, { position: this.state.position }]}>
+    //         <View style={[styles.primary, this.props.primaryStyle, { alignItems: 'center', justifyContent: 'space-between' }]}>
+    //           {this.renderActions()}
+    //           {this.renderComposer()}
+    //           {this.renderSend()}
+    //         </View>
+    //         {/* {this.renderAccessory()} */}
+    //       </View>
+    //     </KeyboardAvoidingView>
+    //   )
+    // )
   }
 
 }
@@ -108,6 +156,7 @@ const styles = StyleSheet.create({
   primary: {
     flexDirection: 'row',
     alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   accessory: {
     height: 44,

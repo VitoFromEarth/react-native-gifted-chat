@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 
 export const MIN_COMPOSER_HEIGHT = Platform.select({
-  ios: 33,
+  ios: 50,
   android: 41,
 });
 export const MAX_COMPOSER_HEIGHT = 200;

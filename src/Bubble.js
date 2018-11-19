@@ -136,6 +136,7 @@ export default class Bubble extends React.PureComponent {
             this.props.wrapperStyle[this.props.position],
             this.handleBubbleToNext(),
             this.handleBubbleToPrevious(),
+            { width: '100%' }
           ]}
         >
           <TouchableWithoutFeedback
@@ -146,9 +147,20 @@ export default class Bubble extends React.PureComponent {
             <View>
               {this.renderCustomView()}
               {this.renderMessageImage()}
+              <View
+                style={{
+                  flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'
+                }}
+              >
+                <Text style={{
+                  fontSize: 18,
+                  color: 'rgba(0,0,0,.65)',
+                  fontFamily: "avenir-next-demi-bold"
+                }} >{this.props.name}</Text>
+                {this.renderTime()}
+              </View>
               {this.renderMessageText()}
               <View style={[styles.bottom, this.props.bottomContainerStyle[this.props.position]]}>
-                {this.renderTime()}
                 {this.renderTicks()}
               </View>
             </View>
@@ -167,7 +179,6 @@ const styles = {
       alignItems: 'flex-start',
     },
     wrapper: {
-      borderRadius: 15,
       backgroundColor: Color.leftBubbleBackground,
       marginRight: 60,
       minHeight: 20,
@@ -186,7 +197,6 @@ const styles = {
       alignItems: 'flex-end',
     },
     wrapper: {
-      borderRadius: 15,
       backgroundColor: Color.defaultBlue,
       marginLeft: 60,
       minHeight: 20,
@@ -240,6 +250,7 @@ Bubble.defaultProps = {
   tickStyle: {},
   containerToNextStyle: {},
   containerToPreviousStyle: {},
+  name: '',
 };
 
 Bubble.propTypes = {
@@ -276,4 +287,5 @@ Bubble.propTypes = {
     left: ViewPropTypes.style,
     right: ViewPropTypes.style,
   }),
+  name: PropTypes.string,
 };

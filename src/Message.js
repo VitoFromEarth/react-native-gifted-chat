@@ -77,7 +77,14 @@ export default class Message extends React.PureComponent {
     const avatarProps = this.getInnerComponentProps();
     const { currentMessage } = avatarProps;
     if (currentMessage.user.avatar === null) {
-      return null;
+      return <View style={{
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+        marginTop: 5,
+        marginLeft: 5,
+        backgroundColor: '#ccc'
+      }} />;
     }
     return <Avatar {...avatarProps} />;
   }
@@ -96,11 +103,12 @@ export default class Message extends React.PureComponent {
               { marginBottom: sameUser ? 2 : 10 },
               !this.props.inverted && { marginBottom: 2 },
               this.props.containerStyle[this.props.position],
+              { alignItems: 'flex-start', justifyContent: 'flex-start' }
             ]}
           >
-            {this.props.position === 'left' ? this.renderAvatar() : null}
+            {this.renderAvatar()}
             {this.renderBubble()}
-            {this.props.position === 'right' ? this.renderAvatar() : null}
+            {/*{this.props.position === 'right' ? this.renderAvatar() : null}*/}
           </View>
         )}
       </View>

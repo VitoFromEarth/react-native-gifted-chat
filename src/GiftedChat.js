@@ -8,7 +8,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Animated, Platform, StyleSheet, View } from 'react-native';
+import { Animated, Platform, StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 
 import ActionSheet from '@expo/react-native-action-sheet';
 import moment from 'moment';
@@ -285,6 +285,7 @@ class GiftedChat extends React.Component {
       this.onKeyboardWillShow(e);
     }
     this.setIsTypingDisabled(false);
+    this.scrollToBottom()
   }
 
   onKeyboardDidHide(e) {
@@ -298,14 +299,16 @@ class GiftedChat extends React.Component {
     if (this._messageContainerRef === null) {
       return;
     }
-    this._messageContainerRef.scrollTo({ y: 0, animated });
+    this._messageContainerRef 
+    && this._messageContainerRef.flatListRef 
+    && this._messageContainerRef.flatListRef.scrollToEnd();
   }
 
 
   renderMessages() {
     const AnimatedView = this.props.isAnimated === true ? Animated.View : View;
     return (
-      <AnimatedView
+        <AnimatedView
         style={{
           height: this.state.messagesContainerHeight,
         }}
@@ -341,7 +344,7 @@ class GiftedChat extends React.Component {
     }
 
     this.props.onSend(messages);
-    this.scrollToBottom();
+    // this.scrollToBottom();
 
     if (shouldResetInputToolbar === true) {
       setTimeout(() => {
@@ -472,9 +475,32 @@ class GiftedChat extends React.Component {
     return null;
   }
 
+  renderIosView = () => {}
+  renderAndroidView = () => {}
+  checkPlatform = () => {
+    if(Platform.OS === 'android') {
+      return this.renderAndroidView()
+    }
+    return this.renderIosView()
+  }
+
   render() {
+
     if (this.state.isInitialized === true) {
-      return (
+      return Platform.OS === 'android' ? (
+        <KeyboardAvoidingView
+          style={{flex: 1}}
+          keyboardVerticalOffset={100}
+          behavior="padding"
+        >
+          <ActionSheet ref={(component) => (this._actionSheetRef = component)}>
+            <View style={styles.container} onLayout={this.onMainViewLayout}>
+              {this.renderMessages()}
+              {this.renderInputToolbar()}
+            </View>
+          </ActionSheet>
+        </KeyboardAvoidingView>
+      ) : (
         <ActionSheet ref={(component) => (this._actionSheetRef = component)}>
           <View style={styles.container} onLayout={this.onMainViewLayout}>
             {this.renderMessages()}
@@ -548,7 +574,7 @@ GiftedChat.defaultProps = {
   renderAccessory: null,
   onPressActionButton: null,
   bottomOffset: 0,
-  minInputToolbarHeight: 44,
+  minInputToolbarHeight: 50,
   keyboardShouldPersistTaps: Platform.select({
     ios: 'never',
     android: 'always',
