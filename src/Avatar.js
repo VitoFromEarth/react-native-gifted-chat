@@ -55,7 +55,7 @@ export default class Avatar extends React.PureComponent {
           this.props.imageStyle[this.props.position],
         ])}
         user={this.props.currentMessage.user}
-        onPress={() => this.props.onPressAvatar && this.props.onPressAvatar(this.props.currentMessage.user)}
+        onPress={() => this.props.navigation.navigate('CandidateOtherCv', this.props.currentMessage.user)}
       />
     );
   }

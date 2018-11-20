@@ -86,7 +86,7 @@ export default class Message extends React.PureComponent {
         backgroundColor: '#ccc'
       }} />;
     }
-    return <Avatar {...avatarProps} />;
+    return <Avatar {...avatarProps} onPressAvatar />;
   }
 
   render() {
