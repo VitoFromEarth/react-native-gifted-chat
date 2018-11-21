@@ -2,7 +2,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { View, ViewPropTypes, StyleSheet } from 'react-native';
+import { View, ViewPropTypes, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Avatar from './Avatar';
 import Bubble from './Bubble';
@@ -77,14 +77,16 @@ export default class Message extends React.PureComponent {
     const avatarProps = this.getInnerComponentProps();
     const { currentMessage } = avatarProps;
     if (currentMessage.user.avatar === null) {
-      return <View style={{
-        width: 36,
-        height: 36,
-        borderRadius: 18,
-        marginTop: 5,
-        marginLeft: 5,
-        backgroundColor: '#ccc'
-      }} />;
+      return <TouchableOpacity onPress={() => this.props.navigation.navigate('CandidateOtherCv', this.props.currentMessage.user)}>
+        <View style={{
+          width: 36,
+          height: 36,
+          borderRadius: 18,
+          marginTop: 5,
+          marginLeft: 5,
+          backgroundColor: '#ccc'
+        }} />
+      </TouchableOpacity>;
     }
     return <Avatar {...avatarProps} onPressAvatar />;
   }
