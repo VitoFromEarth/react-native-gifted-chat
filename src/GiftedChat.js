@@ -487,20 +487,7 @@ class GiftedChat extends React.Component {
   render() {
 
     if (this.state.isInitialized === true) {
-      return Platform.OS === 'android' ? (
-        <KeyboardAvoidingView
-          style={{flex: 1}}
-          keyboardVerticalOffset={100}
-          behavior="padding"
-        >
-          <ActionSheet ref={(component) => (this._actionSheetRef = component)}>
-            <View style={styles.container} onLayout={this.onMainViewLayout}>
-              {this.renderMessages()}
-              {this.renderInputToolbar()}
-            </View>
-          </ActionSheet>
-        </KeyboardAvoidingView>
-      ) : (
+      return (
         <ActionSheet ref={(component) => (this._actionSheetRef = component)}>
           <View style={styles.container} onLayout={this.onMainViewLayout}>
             {this.renderMessages()}
